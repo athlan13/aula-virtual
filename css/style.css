@@ -1,4 +1,4 @@
-/* Gaya HUD, joystick, dan kartu panel */
+/* Gaya HUD, joystick, tombol kamera, dan kartu panel */
 
 :root {
   --bg:#0b1020;
@@ -70,6 +70,14 @@ canvas {
   background:rgba(255,255,255,.08);
   border:1px solid rgba(255,255,255,.2);
   display:none;
+}
+
+#camBtn {
+  position:fixed;
+  right:16px;
+  bottom:calc(env(safe-area-inset-bottom,0px) + 28px);
+  cursor:pointer;
+  z-index:2;
 }
 
 #knob {
