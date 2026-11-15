@@ -149,11 +149,38 @@ function makeIcon(i){
   c.lineCap=c.lineJoin='round';
   c.strokeStyle='#e0fbff';
   c.fillStyle='#e0fbff';
-  c.shadowColor='#22d3ee';
-  c.shadowBlur=14;
+  c.shadowBlur=0;
   ICONS[i](c);
-  const m=new THREE.ShaderMaterial({transparent:true,depthWrite:false,side:THREE.DoubleSide,blending:AD,uniforms:{map:{value:new THREE.CanvasTexture(cv)},time:{value:0},tint:{value:new THREE.Color(PANELS[i].c)}},vertexShader:VS,fragmentShader:iFS});
-  return new THREE.Mesh(new THREE.PlaneGeometry(1.5,1.5),m)
+  const G=64,SZ=1.5,cell=SZ/G,DEP=4,img=c.getImageData(0,0,256,256).data,tint=new THREE.Color(PANELS[i].c),pts=[];
+  for(let gy=0;gy<G;gy++)for(let gx=0;gx<G;gx++){
+    let ba=0,bk=0;
+    for(let dy=0;dy<4;dy++)for(let dx=0;dx<4;dx++){
+      const k=((gy*4+dy)*256+gx*4+dx)*4;
+      if(img[k+3]>ba){
+        ba=img[k+3];
+        bk=k
+      }
+    }
+    if(ba>120)pts.push([gx,gy,new THREE.Color(img[bk]/255,img[bk+1]/255,img[bk+2]/255).multiplyScalar(.6).add(tint.clone().multiplyScalar(.5))])
+  }
+  const mat=new THREE.MeshBasicMaterial({transparent:true,opacity:.85,blending:AD,depthWrite:false});
+  const im=new THREE.InstancedMesh(new THREE.BoxGeometry(cell*.9,cell*.9,cell*1.4),mat,pts.length*DEP),dm=new THREE.Object3D();
+  let cnt=0;
+  pts.forEach(p=>{
+    for(let z=0;z<DEP;z++){
+      dm.position.set((p[0]-G/2+.5)*cell,(G/2-p[1]-.5)*cell,(z-(DEP-1)/2)*cell*1.5);
+      dm.updateMatrix();
+      im.setMatrixAt(cnt,dm.matrix);
+      im.setColorAt(cnt,p[2].clone().multiplyScalar(z===0||z===DEP-1?1:.4));
+      cnt++
+    }
+  });
+  im.frustumCulled=false;
+  const scan=new THREE.Mesh(new THREE.PlaneGeometry(1.7,.035),new THREE.MeshBasicMaterial({color:tint,transparent:true,opacity:.75,blending:AD,depthWrite:false,side:THREE.DoubleSide}));
+  const grp=new THREE.Group();
+  grp.add(im,scan);
+  grp.userData={mat,scan};
+  return grp
 }
 const orns=[];
 function mkOrns(){
@@ -192,9 +219,10 @@ function ornUpdate(T){
   orns.forEach((o,i)=>{
     o.bm.uniforms.time.value=T;
     const n=i===near;
-    o.sh.rotation.y=Math.sin(T*.8+i)*.4;
+    o.sh.rotation.y=Math.sin(T*.7+i)*.9;
     o.sh.position.y=2.9+Math.sin(T*1.4+i)*.08;
-    o.sh.material.uniforms.time.value=T;
+    o.sh.userData.mat.opacity=.8+.12*Math.sin(T*9+i)*Math.sin(T*2.3+i)-(Math.random()<.01?.3:0);
+    o.sh.userData.scan.position.y=((T*.5+i*.2)%1-.5)*1.6;
     o.sh.scale.setScalar(n?1.35:1);
     o.rg.position.y=o.sh.position.y;
     o.rg.rotation.set(1.2,T*.9+i,0);

@@ -69,13 +69,19 @@ function tick(){
   document.getElementById('loc').textContent=near>=0?PANELS[near].t:'Lobi';
   sun.position.set(pos.x+5,10,pos.z+6);
   sun.target.position.copy(pos);
-  const D=5.4,tx=pos.x,tz=pos.z;
+  const D=camDist,tx=pos.x,tz=pos.z;
   let wx=tx+Math.sin(cy)*Math.cos(cp)*D,wz=tz+Math.cos(cy)*Math.cos(cp)*D,wy=1.5+Math.sin(cp)*D;
   wx=Math.max(-14.5,Math.min(14.5,wx));
   wz=Math.max(-10.5,Math.min(10.5,wz));
-  cpos.lerp(new THREE.Vector3(wx,Math.min(wy,7.2),wz),Math.min(1,dt*8));
-  cam.position.copy(cpos);
-  cam.lookAt(tx,1.5,tz);
+  cpos.lerp(new THREE.Vector3(wx,Math.max(.35,Math.min(wy,7.2)),wz),Math.min(1,dt*8));
+  if(fp){
+    cam.position.set(tx-Math.sin(cy)*.15,1.72,tz-Math.cos(cy)*.15);
+    cpos.copy(cam.position);
+    cam.lookAt(cam.position.x-Math.sin(cy)*Math.cos(fpp),1.72+Math.sin(fpp),cam.position.z-Math.cos(cy)*Math.cos(fpp))
+  } else{
+    cam.position.copy(cpos);
+    cam.lookAt(tx,1.5,tz)
+  }
   R.render(S,cam)
 }
 addEventListener('resize',()=>{

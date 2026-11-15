@@ -1,11 +1,12 @@
-/* Input keyboard, mouse, joystick, modal panel */
+/* Input keyboard, mouse, joystick, kamera, modal panel */
 
 const keys={};
-let cy=0,cp=.32,joy={x:0,y:0},near=-1;
+let cy=0,cp=.32,joy={x:0,y:0},near=-1,fp=false,fpp=0,camDist=5.4;
 addEventListener('keydown',e=>{
   const k=e.key.toLowerCase();
   keys[k]=1;
   if(k==='e')toggle();
+  if(k==='v')toggleCam();
   if(k==='escape')closeM();
   if(k.startsWith('arrow'))e.preventDefault()
 });
@@ -17,7 +18,8 @@ R.domElement.addEventListener('pointerdown',e=>{
 addEventListener('pointermove',e=>{
   if(!drag)return;
   cy-=(e.clientX-drag.x)*.006;
-  cp=Math.max(.05,Math.min(1.1,cp+(e.clientY-drag.y)*.004));
+  if(fp)fpp=Math.max(-1.45,Math.min(1.45,fpp-(e.clientY-drag.y)*.004));
+  else cp=Math.max(-.25,Math.min(1.3,cp+(e.clientY-drag.y)*.004));
   drag={x:e.clientX,y:e.clientY}
 });
 addEventListener('pointerup',()=>drag=null);
@@ -63,3 +65,15 @@ MO.addEventListener('click',e=>{
   if(e.target===MO)closeM()
 });
 H.addEventListener('click',toggle);
+const CB=document.getElementById('camBtn');
+function toggleCam(){
+  fp=!fp;
+  av.root.visible=!fp;
+  fpp=0;
+  CB.textContent=fp?'Kamera: orang pertama (V)':'Kamera: orang ketiga (V)'
+}
+CB.addEventListener('click',toggleCam);
+CB.addEventListener('pointerdown',e=>e.stopPropagation());
+addEventListener('wheel',e=>{
+  camDist=Math.max(2.5,Math.min(9,camDist+e.deltaY*.005))
+},{passive:true});
