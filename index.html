@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Aula Virtual – Farhan Fadillah</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div id="top"><div class="chip"><b>Aula Virtual</b> · Farhan Fadillah<br><span id="help">WASD / panah: jalan · Shift: lari · seret mouse: putar kamera · E: buka panel</span></div><div class="chip" id="loc">Lobi</div></div>
+  <div id="hint">Tekan E / ketuk untuk membuka</div>
+  <div id="joy"><div id="knob"></div></div>
+  <div id="modal"><div id="card"></div></div>
+
+  <!-- three.js (library 3D) -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <!-- Urutan file penting: data -> world -> hologram -> ornaments -> panels -> avatar -> controls -> main -->
+  <script src="js/data.js"></script>
+  <script src="js/world.js"></script>
+  <script src="js/hologram.js"></script>
+  <script src="js/ornaments.js"></script>
+  <script src="js/panels.js"></script>
+  <script src="js/avatar.js"></script>
+  <script src="js/controls.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>
