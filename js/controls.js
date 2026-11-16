@@ -4,7 +4,15 @@ const keys={};
 let cy=0,cp=.32,joy={x:0,y:0},near=-1,fp=false,fpp=0,camDist=5.4;
 addEventListener('keydown',e=>{
   const k=e.key.toLowerCase();
+  if(chatOpen){
+    if(k==='escape')closeChat();
+    return
+  }
   keys[k]=1;
+  if(k==='t'&&nearAI){
+    e.preventDefault();
+    openChat()
+  }
   if(k==='e')toggle();
   if(k==='v')toggleCam();
   if(k==='escape')closeM();
@@ -54,7 +62,8 @@ J.addEventListener('pointerup',()=>{
 const H=document.getElementById('hint'),MO=document.getElementById('modal'),CD=document.getElementById('card');
 function toggle(){
   if(MO.style.display==='flex')closeM();
-  else if(near>=0)openM(near)
+  else if(near>=0)openM(near);
+  else if(nearAI)openChat()
 }
 function openM(i){
   const p=PANELS[i];

@@ -6,7 +6,7 @@ const pos=av.root.position;
 const cpos=new THREE.Vector3(0,3,12);
 function tick(){
   requestAnimationFrame(tick);
-  const dt=Math.min(clk.getDelta(),.05),T=clk.elapsedTime,modal=MO.style.display==='flex';
+  const dt=Math.min(clk.getDelta(),.05),T=clk.elapsedTime,modal=MO.style.display==='flex'||chatOpen;
   let ix=modal?0:((keys.d||keys.arrowright?1:0)-(keys.a||keys.arrowleft?1:0)+joy.x),iz=modal?0:((keys.w||keys.arrowup?1:0)-(keys.s||keys.arrowdown?1:0)-joy.y);
   const len=Math.min(Math.hypot(ix,iz),1);
   if(len>.08){
@@ -54,6 +54,7 @@ function tick(){
   av.eyes.scale.y=(T%3.6<.12)?.1:1;
   holoUpdate(T);
   ornUpdate(T);
+  aiUpdate(T,dt);
   near=-1;
   let best=5.2;
   SPOTS.forEach((s,i)=>{
@@ -64,8 +65,10 @@ function tick(){
     }
   });
   frames.forEach((f,i)=>f.material.emissive.setHex(i===near?0x6b5400:0));
-  H.style.display=(near>=0&&!modal)?'block':'none';
+  nearAI=Math.hypot(pos.x-AIP.x,pos.z-AIP.z)<4.2;
+  H.style.display=((near>=0||nearAI)&&!modal)?'block':'none';
   if(near>=0)H.textContent='Buka: '+PANELS[near].t+' (E / ketuk)';
+  else if(nearAI)H.textContent='Ngobrol dengan Aria (T / ketuk)';
   document.getElementById('loc').textContent=near>=0?PANELS[near].t:'Lobi';
   sun.position.set(pos.x+5,10,pos.z+6);
   sun.target.position.copy(pos);
