@@ -10,10 +10,11 @@ Struktur:
   js/panels.js      panel portofolio di dinding
   js/avatar.js      karakter 3D manusia + animasinya
   js/controls.js    keyboard, mouse, joystick, kamera, kartu detail
+  js/assistant.js   asisten AI hologram Aria: avatar cewek + chat (jawaban dari data PANELS)
   js/main.js        loop animasi utama
 
 Kontrol: WASD/panah jalan, Shift lari, seret mouse putar kamera 360 derajat,
-scroll zoom, V ganti kamera orang pertama/ketiga, E buka panel.
+scroll zoom, V ganti kamera orang pertama/ketiga, E buka panel, T ngobrol dengan Aria (dekati avatar cewek hologram).
 
 Cara pakai:
   - Klik dua kali index.html (perlu internet untuk memuat three.js dari CDN).
