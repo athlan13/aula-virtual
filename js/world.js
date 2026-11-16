@@ -12,15 +12,15 @@ const S=new THREE.Scene();
 S.background=new THREE.Color(0x0b1020);
 S.fog=new THREE.Fog(0x0b1020,18,42);
 const cam=new THREE.PerspectiveCamera(60,innerWidth/innerHeight,.1,80);
-S.add(new THREE.HemisphereLight(0xbfd4ff,0x2a2438,.9));
-const sun=new THREE.DirectionalLight(0xfff1dd,.7);
+S.add(new THREE.HemisphereLight(0xbfd4ff,0x2a2438,.15));
+const sun=new THREE.DirectionalLight(0xfff1dd,.14);
 sun.position.set(5,10,6);
 sun.castShadow=true;
 sun.shadow.mapSize.set(1024,1024);
 Object.assign(sun.shadow.camera,{left:-6,right:6,top:6,bottom:-6,near:1,far:25});
 S.add(sun,sun.target);
 [[-8,-5],[8,-5],[-8,5],[8,5]].forEach(p=>{
-  const l=new THREE.PointLight(0xffd9a0,.9,18);
+  const l=new THREE.PointLight(0xffd9a0,.2,18);
   l.position.set(p[0],6.8,p[1]);
   S.add(l)
 });

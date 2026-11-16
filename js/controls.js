@@ -13,16 +13,20 @@ addEventListener('keydown',e=>{
 addEventListener('keyup',e=>keys[e.key.toLowerCase()]=0);
 let drag=null;
 R.domElement.addEventListener('pointerdown',e=>{
-  drag={x:e.clientX,y:e.clientY}
+  drag={x:e.clientX,y:e.clientY,id:e.pointerId}
 });
 addEventListener('pointermove',e=>{
-  if(!drag)return;
+  if(!drag||e.pointerId!==drag.id)return;
   cy-=(e.clientX-drag.x)*.006;
   if(fp)fpp=Math.max(-1.45,Math.min(1.45,fpp-(e.clientY-drag.y)*.004));
   else cp=Math.max(-.25,Math.min(1.3,cp+(e.clientY-drag.y)*.004));
-  drag={x:e.clientX,y:e.clientY}
+  drag.x=e.clientX;
+  drag.y=e.clientY
 });
-addEventListener('pointerup',()=>drag=null);
+addEventListener('pointerup',e=>{
+  if(drag&&e.pointerId===drag.id)drag=null
+});
+addEventListener('pointercancel',()=>drag=null);
 const J=document.getElementById('joy'),K=document.getElementById('knob');
 if(matchMedia('(pointer:coarse)').matches){
   J.style.display='block';
