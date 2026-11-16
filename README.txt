@@ -11,6 +11,7 @@ Struktur:
   js/avatar.js      karakter 3D manusia + animasinya
   js/controls.js    keyboard, mouse, joystick, kamera, kartu detail
   js/assistant.js   asisten AI hologram Aria: avatar cewek + chat (jawaban dari data PANELS)
+  js/intro.js       layar pembuka (tombol MASUK)
   js/main.js        loop animasi utama
 
 Kontrol: WASD/panah jalan, Shift lari, seret mouse putar kamera 360 derajat,
