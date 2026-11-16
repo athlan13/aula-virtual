@@ -29,6 +29,11 @@ const LN=(c,a)=>{
   c.stroke()
 };
 // Ikon digambar di kanvas 512x512 lalu ditumpuk berlapis jadi hologram 3D
+const LG=(c,im,x,y,w,h)=>{
+  if(!im.complete||!im.naturalWidth)return;
+  const r=Math.min(w/im.naturalWidth,h/im.naturalHeight),dw=im.naturalWidth*r,dh=im.naturalHeight*r;
+  c.drawImage(im,x+(w-dw)/2,y+(h-dh)/2,dw,dh)
+};
 const ICONS=[ c=>{
   const a='#7dd3fc';
   c.strokeStyle=a;
@@ -52,68 +57,20 @@ const ICONS=[ c=>{
   TX(c,'DATA · IT OPERATIONS · NETWORK',256,496,22,a,500)
 }, c=>{
   const a='#a78bfa';
-  c.lineWidth=8;
-  c.strokeStyle='#e0fbff';
-  c.fillStyle='rgba(167,139,250,.4)';
-  c.beginPath();
-  c.moveTo(256,60);
-  c.lineTo(440,140);
-  c.lineTo(256,220);
-  c.lineTo(72,140);
-  c.closePath();
-  c.fill();
-  c.stroke();
-  c.beginPath();
-  c.moveTo(130,180);
-  c.lineTo(130,260);
-  c.quadraticCurveTo(256,320,382,260);
-  c.lineTo(382,180);
-  c.stroke();
-  LN(c,[430,148,430,245]);
-  CI(c,430,258,12,1);
-  c.strokeStyle=a;
-  c.lineWidth=6;
-  LN(c,[110,330,256,362,402,330,402,398,256,430,110,398,110,330]);
-  LN(c,[256,362,256,430]);
-  TX(c,'UNIVERSITAS GUNADARMA',256,474,34,'#e0fbff');
-  TX(c,'S1 INFORMATIKA · IPK 3.73',256,504,22,a,500)
+  LG(c,LOGO.ug,86,14,340,340);
+  TX(c,'UNIVERSITAS GUNADARMA',256,408,34,'#e0fbff');
+  TX(c,'S1 INFORMATIKA · IPK 3.73',256,448,24,a,500);
+  TX(c,'PENDIDIKAN · 2021–2025',256,486,22,'#c4b5fd',500)
 }, c=>{
   const g='#34d399';
-  c.lineWidth=2;
-  c.strokeStyle='rgba(52,211,153,.35)';
-  for(let k=0;k<5;k++)LN(c,[40,80+k*65,472,80+k*65]);
-  [[70,300,260,240,320],[130,270,300,250,320],[190,290,230,210,310],[250,240,200,180,260],[310,220,235,190,250],[370,190,140,110,205],[430,150,100,70,170]].forEach(d=>{
-    c.strokeStyle=c.fillStyle=d[2]<d[1]?g:'#fb7185';
-    c.lineWidth=5;
-    LN(c,[d[0],d[3],d[0],d[4]]);
-    c.fillRect(d[0]-16,Math.min(d[1],d[2]),32,Math.abs(d[1]-d[2]))
-  });
-  c.strokeStyle='#e0fbff';
-  c.lineWidth=6;
-  LN(c,[50,335,130,295,200,255,280,220,360,155,455,62]);
-  LN(c,[412,62,458,58,452,104]);
-  TX(c,'BEI',256,408,76,'#e0fbff',800);
-  TX(c,'BURSA EFEK INDONESIA',256,450,28,g,600);
-  TX(c,'INDONESIA STOCK EXCHANGE',256,484,22,'#a7f3d0',500)
+  LG(c,LOGO.idx,56,6,400,400);
+  TX(c,'MAGANG IT OPERATIONS',256,446,32,'#e0fbff');
+  TX(c,'SYSTEM MANAGEMENT · APR–AGU 2026',256,486,22,g,500)
 }, c=>{
-  const b='#7db4ff',gr=c.createLinearGradient(40,0,470,0);
-  gr.addColorStop(0,'#f59e0b');
-  gr.addColorStop(1,'#fde68a');
-  c.fillStyle=gr;
-  c.beginPath();
-  c.moveTo(50,175);
-  c.bezierCurveTo(160,60,330,40,462,110);
-  c.bezierCurveTo(340,92,170,112,50,175);
-  c.fill();
-  TX(c,'mandiri',256,300,118,b,800);
-  c.strokeStyle=gr;
-  c.lineWidth=10;
-  c.beginPath();
-  c.moveTo(70,335);
-  c.quadraticCurveTo(256,375,442,325);
-  c.stroke();
-  TX(c,'BANK MANDIRI',256,434,42,'#e0fbff');
-  TX(c,'IT INFRASTRUKTUR · ENDPOINT MANAGEMENT',256,474,20,'#fde68a',500)
+  LG(c,LOGO.mandiri,26,40,460,260);
+  TX(c,'BANK MANDIRI',256,372,42,'#e0fbff');
+  TX(c,'IT INFRASTRUKTUR · ENDPOINT MANAGEMENT',256,416,21,'#fde68a',500);
+  TX(c,'MAGANG SEJAK AGUSTUS 2026',256,452,21,'#93c5fd',500)
 }, c=>{
   const p='#f472b6';
   c.lineWidth=7;
@@ -216,6 +173,12 @@ function makeIcon(i){
   c.shadowBlur=14;
   ICONS[i](c);
   const tex=new THREE.CanvasTexture(cv);
+  const LK={1:'ug',2:'idx',3:'mandiri'}[i];
+  if(LK&&!LOGO[LK].complete)LOGO[LK].addEventListener('load',()=>{
+    c.clearRect(0,0,512,512);
+    ICONS[i](c);
+    tex.needsUpdate=true
+  });
   tex.anisotropy=8;
   tex.encoding=THREE.sRGBEncoding;
   const grp=new THREE.Group(),N=7,SZ=1.9,DZ=.3,mats=[];
