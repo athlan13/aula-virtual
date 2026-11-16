@@ -136,3 +136,129 @@ canvas {
 #card small {
   color:#94a3b8;
 }
+
+#card {
+  animation:pop .35s ease-out;
+  box-shadow:0 0 40px rgba(125,211,252,.25),inset 0 0 30px rgba(125,211,252,.06);
+  background:repeating-linear-gradient(0deg,rgba(255,255,255,.025) 0 1px,transparent 1px 4px),#111a2f;
+}
+
+#card h2 {
+  text-shadow:0 0 18px rgba(125,211,252,.5);
+}
+
+from {
+  opacity:0;
+  transform:translateY(24px) scale(.94);
+}
+
+to {
+  opacity:1;
+  transform:none;
+}
+
+#intro {
+  position:fixed;
+  inset:0;
+  z-index:20;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:radial-gradient(circle at 50% 40%,rgba(10,20,50,.55),rgba(3,5,14,.92));
+  backdrop-filter:blur(6px);
+  transition:opacity .8s;
+  padding:20px;
+  box-sizing:border-box;
+  text-align:center;
+}
+
+#intro.hide {
+  opacity:0;
+  pointer-events:none;
+}
+
+.ibox {
+  max-width:520px;
+  width:100%;
+}
+
+.ilogo {
+  font-size:clamp(46px,12vw,84px);
+  font-weight:800;
+  letter-spacing:.06em;
+  color:#e0fbff;
+  text-shadow:0 0 24px #22d3ee,0 0 60px #2563eb;
+  animation:fl 3s infinite;
+}
+
+0%,92%,100% {
+  opacity:1;
+}
+
+94% {
+  opacity:.55;
+}
+
+96% {
+  opacity:1;
+}
+
+98% {
+  opacity:.7;
+}
+
+.iname {
+  margin:6px 0 22px;
+  color:#7dd3fc;
+  letter-spacing:.2em;
+  font-size:13px;
+  text-transform:uppercase;
+}
+
+.ibar {
+  height:6px;
+  border-radius:6px;
+  background:rgba(255,255,255,.1);
+  overflow:hidden;
+}
+
+.ibar i {
+  display:block;
+  height:100%;
+  width:0;
+  background:linear-gradient(90deg,#22d3ee,#a78bfa);
+  box-shadow:0 0 14px #22d3ee;
+}
+
+#istat {
+  margin:10px 0 20px;
+  font-size:13px;
+  color:#94a3b8;
+  min-height:18px;
+}
+
+#igo {
+  background:#7dd3fc;
+  color:#06202e;
+  font-weight:800;
+  font-size:16px;
+  border:0;
+  border-radius:999px;
+  padding:12px 36px;
+  cursor:pointer;
+  letter-spacing:.1em;
+  box-shadow:0 0 30px rgba(125,211,252,.4);
+}
+
+#igo:disabled {
+  opacity:.35;
+  cursor:default;
+  box-shadow:none;
+}
+
+.ihelp {
+  margin-top:22px;
+  font-size:12px;
+  line-height:1.8;
+  color:#94a3b8;
+}
