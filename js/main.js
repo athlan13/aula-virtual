@@ -6,8 +6,9 @@ const pos=av.root.position;
 const cpos=new THREE.Vector3(0,3,12);
 function tick(){
   requestAnimationFrame(tick);
-  const dt=Math.min(clk.getDelta(),.05),T=clk.elapsedTime,modal=MO.style.display==='flex'||chatOpen;
+  const dt=Math.min(clk.getDelta(),.05),T=clk.elapsedTime,modal=MO.style.display==='flex'||chatOpen||!started;
   let ix=modal?0:((keys.d||keys.arrowright?1:0)-(keys.a||keys.arrowleft?1:0)+joy.x),iz=modal?0:((keys.w||keys.arrowup?1:0)-(keys.s||keys.arrowdown?1:0)-joy.y);
+  if(!started)cy+=dt*.12;
   const len=Math.min(Math.hypot(ix,iz),1);
   if(len>.08){
     const fx=-Math.sin(cy),fz=-Math.cos(cy),rx=Math.cos(cy),rz=-Math.sin(cy);
@@ -55,6 +56,7 @@ function tick(){
   holoUpdate(T);
   ornUpdate(T);
   aiUpdate(T,dt);
+  panelUpdate(T,dt);
   near=-1;
   let best=5.2;
   SPOTS.forEach((s,i)=>{

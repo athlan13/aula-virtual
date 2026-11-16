@@ -1,5 +1,16 @@
 /* Scene, renderer, lampu, lantai, dinding, pilar, podium */
 
+if(typeof THREE==='undefined'||!(()=>{
+  try{
+    const c=document.createElement('canvas');
+    return!!(c.getContext('webgl')||c.getContext('experimental-webgl'))
+  } catch(e){
+    return false
+  }
+})()){
+  document.getElementById('intro').innerHTML='<div class="ibox"><div class="ilogo" style="font-size:42px">F-HOLO</div><p style="color:#cbd5e1;line-height:1.6">Dunia 3D tidak bisa dimuat. Pastikan internet aktif (untuk memuat three.js) dan browser mendukung WebGL, lalu muat ulang halaman.</p></div>';
+  throw new Error('THREE atau WebGL tidak tersedia')
+}
 const R=new THREE.WebGLRenderer({antialias:true});
 R.setPixelRatio(Math.min(devicePixelRatio,2));
 R.setSize(innerWidth,innerHeight);
