@@ -6,6 +6,7 @@ Struktur:
   js/data.js        EDIT DI SINI: isi portofolio (PANELS), warna avatar (CFG), posisi panel (SPOTS)
   js/world.js       scene, lampu, lantai, dinding, pilar, podium
   js/hologram.js    hologram F-HOLO di tengah aula
+  js/logos.js       logo BEI, Mandiri, Gunadarma (PNG tertanam; jangan diedit manual)
   js/ornaments.js   ornamen hologram + ikon logo di tiap panel
   js/panels.js      panel portofolio di dinding
   js/avatar.js      karakter 3D manusia + animasinya
